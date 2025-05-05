@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Email;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class EmailController extends Controller
@@ -10,9 +11,23 @@ class EmailController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): JsonResponse
     {
-        //
+        try {
+            $emails = Email::paginate(10);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Liste des emails récupérée avec succès.',
+                'data' => $emails
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Une erreur est survenue lors de la récupération des emails.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
     }
 
     /**

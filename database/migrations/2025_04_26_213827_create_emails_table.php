@@ -13,9 +13,14 @@ return new class extends Migration
     {
         Schema::create('emails', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->foreignId('client_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('client_id')->nullable()->constrained('users')->onDelete('cascade');
+            $table->foreignId('employee_id')->nullable()->constrained('users')->onDelete('cascade');
+
             $table->foreignId('classification_id')->nullable()->constrained()->onDelete('cascade');
 
+            $table->string('name');
+            $table->string('email');
+            $table->string('subject');
             $table->text('sujet');
             $table->text('commentaire')->nullable();
             $table->string('status'); 

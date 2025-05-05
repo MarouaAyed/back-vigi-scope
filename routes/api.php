@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\EmailController;
 use App\Http\Controllers\OutlookEmailController;
 use App\Http\Controllers\VerificationController;
 use Illuminate\Http\Request;
@@ -22,3 +23,5 @@ Route::get('/callback', [OutlookEmailController::class, 'handleCallback']);
 Route::get('/emails', [OutlookEmailController::class, 'fetchEmails']);
 
 Route::resource('/appointments', AppointmentController::class);
+
+Route::get('/emails', [EmailController::class, 'index']);

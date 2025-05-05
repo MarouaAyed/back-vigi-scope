@@ -114,3 +114,7 @@ php artisan make:model Classification -rm
 
 php artisan make:mail VerifyEmail
 
+
+php artisan make:factory EmailFactory --model=Email
+php artisan make:seeder EmailSeeder
+
