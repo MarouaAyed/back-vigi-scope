@@ -15,7 +15,6 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->foreignId('client_id')->nullable()->constrained('users')->onDelete('cascade');
             $table->foreignId('employee_id')->nullable()->constrained('users')->onDelete('cascade');
-
             $table->foreignId('classification_id')->nullable()->constrained()->onDelete('cascade');
 
             $table->string('name');
