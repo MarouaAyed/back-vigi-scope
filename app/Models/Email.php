@@ -18,6 +18,6 @@ class Email extends Model
         'subject',
         'sujet',
         'commentaire',
-        'status'
+        'traitement','dateTraitement', 'status'
     ];
 }

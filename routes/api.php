@@ -24,4 +24,4 @@ Route::get('/emails', [OutlookEmailController::class, 'fetchEmails']);
 
 Route::resource('/appointments', AppointmentController::class);
 
-Route::get('/emails', [EmailController::class, 'index']);
+Route::get('/all-emails', [EmailController::class, 'index']);

@@ -23,7 +23,9 @@ return new class extends Migration
             $table->string('subject');
             $table->text('sujet');
             $table->text('commentaire')->nullable();
-            $table->string('status'); 
+            $table->enum('traitement', ['En attente', 'Traité', 'En cours'])->default('En attente');
+            $table->enum('status', ['libre', 'bloque', 'affecte'])->default('libre');
+            $table->date('dateTraitement')->nullable();
             $table->timestamps();
         });
     }

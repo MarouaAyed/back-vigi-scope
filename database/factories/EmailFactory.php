@@ -22,7 +22,6 @@ class EmailFactory extends Factory
             'subject' => $this->faker->sentence(),
             'sujet' => $this->faker->text(100),
             'commentaire' => $this->faker->optional()->text(200),
-            'status' => $this->faker->randomElement(['pending', 'approved', 'rejected']),
             'created_at' => now(),
             'updated_at' => now(),
         ];
