@@ -118,3 +118,14 @@ php artisan make:mail VerifyEmail
 php artisan make:factory EmailFactory --model=Email
 php artisan make:seeder EmailSeeder
 
+
+git filter-branch --force --index-filter "git rm --cached --ignore-unmatch app/Http/Controllers/OutlookEmailController.php" --prune-empty --tag-name-filter cat -- --all
+
+
+git push --force
+
+
+
+php artisan make:migration create_oauth_tokens_table
+
+

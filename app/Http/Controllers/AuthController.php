@@ -23,7 +23,7 @@ class AuthController extends Controller
                 'name' => ['required', 'string', 'max:255'],
                 'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
                 'password' => ['required', 'confirmed', Password::defaults()],  // password_confirmation
-                'role' => 'required|exists:roles,id',
+                'role' => 'required',
             ]);
 
             if ($validator->fails()) {
@@ -50,7 +50,8 @@ class AuthController extends Controller
                 'status' => true,
                 'message' => 'Utilisateur créé avec succès',
                 'user' => $user,
-                'token' => $token
+                'token' => $token,
+                'role' => $request->role
             ], 201);
         } catch (\Exception $e) {
             Log::error('Erreur d\'inscription: ' . $e->getMessage());
@@ -119,7 +120,6 @@ class AuthController extends Controller
                 'user' => $user,
                 'token' => $token
             ], 'Connexion Microsoft réussie');
-
         } catch (\Exception $e) {
             Log::error('Microsoft Auth Error: ' . $e->getMessage());
             return $this->errorResponse('Échec de l\'authentification Microsoft', null, 500);

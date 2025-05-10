@@ -18,8 +18,12 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->text('scopes')->nullable();
             $table->boolean('revoked');
-            $table->timestamps();
+            
+            $table->string('access_token');
+            $table->string('refresh_token')->nullable();
+
             $table->dateTime('expires_at')->nullable();
+            $table->timestamps();
         });
     }
 

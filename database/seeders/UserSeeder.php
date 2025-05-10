@@ -15,12 +15,11 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        // Créer un Admin
         $admin = User::create([
             'name' => 'Admin',
             'email' => 'admin@gmail.com',
             'password' => Hash::make('123456789'),
-            'created_at' => Carbon::create(2025, 3, 10, 10, 0, 0), // Date et heure spécifiques
+            'created_at' => Carbon::create(2025, 3, 10, 10, 0, 0), 
         ]);
         $admin->roles()->attach(1); // Associer le rôle Admin
     }

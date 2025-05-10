@@ -10,9 +10,22 @@ class ClassificationController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+     public function index()
     {
-        //
+        try {
+            $classifications = Classification::all();
+
+            return response()->json([
+                'success' => true,
+                'data' => $classifications,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Une erreur est survenue lors de la récupération des classifications.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
     }
 
     /**
