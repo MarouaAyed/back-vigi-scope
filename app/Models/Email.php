@@ -20,4 +20,22 @@ class Email extends Model
         'commentaire',
         'traitement','dateTraitement', 'status'
     ];
+
+
+    public function client()
+    {
+        return $this->belongsTo(User::class, 'client_id');
+    }   
+    public function employee()
+    {
+        return $this->belongsTo(User::class, 'employee_id');
+    }
+    public function classification()
+    {
+        return $this->belongsTo(Classification::class);
+    }
+    public function appointments()
+    {
+        return $this->hasMany(Appointment::class);
+    }
 }

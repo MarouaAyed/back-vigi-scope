@@ -16,9 +16,7 @@ class EmailController extends Controller
     public function index(): JsonResponse
     {
         try {
-            // list in my content
-            $emails = Email::where('classification_id', '==', null)
-                ->where('status', 'libre')
+            $emails = Email::whereNull('classification_id')->where('status', 'libre')
                 ->with(['client', 'employee'])
                 ->get();
 
@@ -35,7 +33,6 @@ class EmailController extends Controller
             ], 500);
         }
     }
-
 
       public function emails_affected(): JsonResponse
     {
@@ -72,7 +69,7 @@ class EmailController extends Controller
 
 
             $email->classification_id = $validated['classification_id'];
-              $email->status = 'affecte';
+            $email->status = 'affecte';
             $email->save();
 
             if ($validated['classification_id'] == "21") { // Classification Client
