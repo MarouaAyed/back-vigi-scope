@@ -21,7 +21,7 @@ class AppointmentController extends Controller
                 ->when($request->client_id, function ($query, $clientId) {
                     $query->where('client_id', $clientId);
                 })
-                ->paginate(10);
+                ->get();
 
             return response()->json($appointments);
         } catch (\Throwable $th) {
