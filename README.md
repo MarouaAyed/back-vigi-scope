@@ -75,8 +75,6 @@ php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvid
 
 php artisan make:seeder RolesAndPermissionsSeeder
 
-
-
 php artisan make:controller AuthController
 
 php artisan migrate

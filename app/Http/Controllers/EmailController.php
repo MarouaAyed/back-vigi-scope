@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Appointment;
 use App\Models\Email;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class EmailController extends Controller
 {
@@ -30,12 +32,44 @@ class EmailController extends Controller
         }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function affect_email(Request $request)
     {
-        //
+        try {
+            $validated = $request->validate([
+                'classification_id' => 'required',
+                'email' => 'required',
+            ]);
+
+            $email = Email::findOrFail($validated['email']);
+
+
+            $email->classification_id = $validated['classification_id'];
+            $email->save();
+
+            if ($validated['classification_id'] == "21") { // Classification Client
+                try {
+                    $dateTraitement = $email->dateTraitement ?? now(); // Default to current date if null
+                    Appointment::create([
+                        'title' => $email->name,
+                        'description' => $email->sujet,
+                        'notes' => $email->commentaire,
+                        'date' => $dateTraitement,
+                        'start_time' => $dateTraitement,
+                    ]);
+                } catch (\Throwable $th) {
+                    Log::error('Failed to create appointment: ' . $th->getMessage());
+
+                    return response()->json([
+                        'message' => 'Failed to create appointment',
+                        'error' => $th->getMessage()
+                    ], 500);
+                }
+            }
+
+            return response()->json(['message' => 'Affect success'], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['message' => $th->getMessage()], 500);
+        }
     }
 
     /**

@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/user', function (Request $request) {
-    return $request->user(); 
+    return $request->user();
 })->middleware('auth:sanctum');
 
 Route::post('/register', [AuthController::class, 'register']);
@@ -24,6 +24,8 @@ Route::get('/callback', [CheckEmailController::class, 'handleCallback']);
 Route::get('/emails', [CheckEmailController::class, 'fetchEmails']);
 
 Route::resource('/appointments', AppointmentController::class);
+
+Route::post('/affect-email', [EmailController::class, 'affect_email']);
 
 Route::get('/all-emails', [EmailController::class, 'index']);
 
