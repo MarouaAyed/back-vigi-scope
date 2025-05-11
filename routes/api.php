@@ -26,7 +26,7 @@ Route::get('/emails', [CheckEmailController::class, 'fetchEmails']);
 Route::resource('/appointments', AppointmentController::class);
 
 Route::post('/affect-email', [EmailController::class, 'affect_email']);
-
+Route::get('/emails-affected', [EmailController::class, 'emails_affected']);
 Route::get('/all-emails', [EmailController::class, 'index']);
 
 Route::get('/classifications', [ClassificationController::class, 'index']);

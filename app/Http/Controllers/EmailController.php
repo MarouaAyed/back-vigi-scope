@@ -16,7 +16,35 @@ class EmailController extends Controller
     public function index(): JsonResponse
     {
         try {
-            $emails = Email::paginate(10);
+            // list in my content
+            $emails = Email::where('classification_id', '==', null)
+                ->where('status', 'libre')
+                ->with(['client', 'employee'])
+                ->get();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Liste des emails récupérée avec succès.',
+                'data' => $emails
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Une erreur est survenue lors de la récupération des emails.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+
+      public function emails_affected(): JsonResponse
+    {
+        try {
+            // list in mail 
+            $emails = Email::where('classification_id', '!=', null)
+                ->where('status', 'affecte')
+                ->with(['client', 'employee'])
+                ->get();
 
             return response()->json([
                 'success' => true,
@@ -44,6 +72,7 @@ class EmailController extends Controller
 
 
             $email->classification_id = $validated['classification_id'];
+              $email->status = 'affecte';
             $email->save();
 
             if ($validated['classification_id'] == "21") { // Classification Client
