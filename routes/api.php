@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CheckEmailController;
 use App\Http\Controllers\ClassificationController;
 use App\Http\Controllers\EmailController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\VerificationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -30,3 +31,6 @@ Route::get('/emails-affected', [EmailController::class, 'emails_affected']);
 Route::get('/all-emails', [EmailController::class, 'index']);
 
 Route::get('/classifications', [ClassificationController::class, 'index']);
+
+Route::get('/users', [UserController::class, 'index']);
+Route::get('/managers', [UserController::class, 'get_managers']);
