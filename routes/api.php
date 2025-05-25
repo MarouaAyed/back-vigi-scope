@@ -35,3 +35,5 @@ Route::get('/classifications', [ClassificationController::class, 'index']);
 
 Route::get('/users', [UserController::class, 'index']);
 Route::get('/managers', [UserController::class, 'get_managers']);
+Route::get('/get-users-pending', [UserController::class, 'get_users_pending']);
+

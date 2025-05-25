@@ -63,6 +63,25 @@ class UserController extends Controller
     }
 
 
+    public function get_users_pending(): JsonResponse
+    {
+        try {
+            $users = User::where('status', 'pending')->with('roles')->get();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Liste des utilisateurs en attente de validation récupérée avec succès.',
+                'data' => $users,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Une erreur est survenue lors de la récupération des utilisateurs en attente.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
     /**
      * Show the form for creating a new resource.
      */

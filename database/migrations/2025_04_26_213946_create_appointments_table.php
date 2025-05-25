@@ -19,6 +19,17 @@ return new class extends Migration
             $table->date('date');
             $table->time('start_time');
             $table->time('end_time')->nullable();
+
+            /* fuseau_horaire
+            organisateur
+            email_organisateur
+            email_organisateur
+            participant_nom
+            participant_email
+            participant_societe
+            lien_reunion
+            journee_entiere */
+
             $table->enum('status', ['pending', 'approved', 'cancelled'])->default('pending');
             $table->text('notes')->nullable();
 
