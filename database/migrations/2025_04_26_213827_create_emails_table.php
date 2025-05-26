@@ -17,14 +17,22 @@ return new class extends Migration
             $table->foreignId('employee_id')->nullable()->constrained('users')->onDelete('cascade');
             $table->foreignId('classification_id')->nullable()->constrained()->onDelete('cascade');
 
-            $table->string('name');
+            $table->string('from');
+            $table->string('to');
             $table->string('email');
             $table->string('subject');
-            $table->text('sujet');
-            $table->text('commentaire')->nullable();
+            $table->text('body');
+            $table->string('category_id');
+            $table->boolean('has_attachment')->default(false);
+            $table->string('attachment_type')->nullable();
+            $table->text('attachment_text')->nullable();
             $table->enum('traitement', ['En attente', 'Traité', 'En cours'])->default('En attente');
             $table->enum('status', ['libre', 'bloque', 'affecte'])->default('libre');
             $table->date('dateTraitement')->nullable();
+
+            $table->string('name')->nullable();
+            $table->text('sujet')->nullable();
+            $table->text('commentaire')->nullable();
             $table->timestamps();
         });
     }

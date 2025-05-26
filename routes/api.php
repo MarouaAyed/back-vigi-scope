@@ -4,6 +4,7 @@ use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CheckEmailController;
 use App\Http\Controllers\ClassificationController;
+use App\Http\Controllers\ClientController;
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VerificationController;
@@ -37,3 +38,5 @@ Route::get('/users', [UserController::class, 'index']);
 Route::get('/managers', [UserController::class, 'get_managers']);
 Route::get('/get-users-pending', [UserController::class, 'get_users_pending']);
 
+
+Route::resource('/clients', ClientController::class);
