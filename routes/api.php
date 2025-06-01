@@ -19,6 +19,9 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::get('email/verify/{id}/{hash}', [VerificationController::class, 'verify'])->name('verification.verify');
 Route::post('/login', [AuthController::class, 'login']);
 
+Route::post('forgot-password', [AuthController::class, 'forgotPassword'])->name('password.forgot');
+Route::post('reset-password', [AuthController::class, 'resetPassword'])->name('password.reset');
+
 Route::post('/redirectToMicrosoft', [AuthController::class, 'redirectToMicrosoft']);
 
 Route::get('/authorize', [CheckEmailController::class, 'authorizeUser']);
@@ -40,3 +43,8 @@ Route::get('/get-users-pending', [UserController::class, 'get_users_pending']);
 
 
 Route::resource('/clients', ClientController::class);
+
+
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('/mail-box-client', [EmailController::class, 'mail_box_client']);
+});

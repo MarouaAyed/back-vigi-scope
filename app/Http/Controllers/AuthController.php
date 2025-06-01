@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ResetPasswordCodeMail;
 use App\Mail\VerifyEmail;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -10,6 +11,9 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Support\Facades\Password as PasswordFacade;
+use Illuminate\Support\Facades\Hash;
+
 use Illuminate\Validation\ValidationException;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Str;
@@ -164,5 +168,51 @@ class AuthController extends Controller
                 'error' => $e->getMessage()
             ], 500);
         }
+    }
+
+    public function forgotPassword(Request $request)
+    {
+        $request->validate(['email' => 'required|email']);
+
+        $email = $request->input('email');
+        $broker = PasswordFacade::broker();
+
+        $user = $broker->getUser(['email' => $email]);
+
+        if (!$user) {
+            return response()->json(['message' => "Utilisateur non trouvé."], 404);
+        }
+
+        // Générer le token/code
+        $token = $broker->createToken($user);
+
+        Mail::to($email)->send(new ResetPasswordCodeMail($token));
+
+        return response()->json([
+            'message' => 'Un code de réinitialisation a été envoyé à votre email.'
+        ], 200);
+    }
+
+    public function resetPassword(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'token' => 'required',
+            'password' => 'required|confirmed',
+        ]);
+
+        $status = PasswordFacade::reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function ($user, $password) {
+                $user->password = Hash::make($password);
+                $user->save();
+            }
+        );
+
+        if ($status === PasswordFacade::PASSWORD_RESET) {
+            return response()->json(['message' => 'Mot de passe réinitialisé avec succès.'], 200);
+        }
+
+        return response()->json(['message' => 'Impossible de réinitialiser le mot de passe.'], 400);
     }
 }

@@ -6,6 +6,7 @@ use App\Models\Appointment;
 use App\Models\Email;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class EmailController extends Controller
@@ -118,6 +119,36 @@ class EmailController extends Controller
             return response()->json(['message' => 'Affect success'], 200);
         } catch (\Throwable $th) {
             return response()->json(['message' => $th->getMessage()], 500);
+        }
+    }
+
+    public function mail_box_client(): JsonResponse  // For connected client
+    {
+        try {
+            $client = Auth::user();
+
+            if (!$client) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Aucun client connecté.',
+                ], 401); // Unauthorized
+            }
+
+            $emails = Email::where('to', '=', $client->email)
+                ->with('employee')
+                ->get();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Liste des emails client connectés récupérée avec succès.',
+                'data' => $emails,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Une erreur est survenue lors de la récupération des emails.',
+                'error' => $e->getMessage(),
+            ], 500);
         }
     }
 
